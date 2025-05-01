@@ -18,7 +18,7 @@ export default function PayPage() {
       });
 
       const { data } = await res.json();
-      const paymentUUID = data.paymentUUID;
+      const purchaseId = data.purchaseUUID;
 
       const tossPayments = await import("@tosspayments/tosspayments-sdk").then(
         (mod) => mod.loadTossPayments("test_ck_Z61JOxRQVEY6lZeGL4zgVW0X9bAq")
@@ -31,9 +31,9 @@ export default function PayPage() {
       await payment.requestPayment({
         method: "CARD",
         amount: { currency: "KRW", value: 500 },
-        orderId: paymentUUID,
+        orderId: String(purchaseId),
         orderName: "예매 티켓",
-        successUrl: `${window.location.origin}/success?paymentUUID=${paymentUUID}`,
+        successUrl: `${window.location.origin}/success?paymentUUID=${purchaseId}`,
         failUrl: `${window.location.origin}/pay/fail`,
         customerName: "홍길동",
         customerEmail: "hong@example.com",
